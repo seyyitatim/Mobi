@@ -1,0 +1,37 @@
+﻿@model Mobi.Models.CategoryEditViewModel
+
+@{
+    ViewData["Title"] = "CategoryEdit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="section">
+    <div class="section-header">
+        <h1>Kategori Düzenle</h1>
+    </div>
+
+    <div class="section-body">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="CategoryEdit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <input asp-for="Id" class="form-control" hidden />
+                    
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Kaydet" class="btn btn-primary" />
+                    </div>
+                </form>
+
+                <div>
+                    <a class="btn btn-info" asp-action="Category">Listeye Geri Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

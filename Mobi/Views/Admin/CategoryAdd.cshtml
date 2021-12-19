@@ -1,0 +1,35 @@
+﻿@model Mobi.Models.CategoryAddViewModel
+
+@{
+    ViewData["Title"] = "CategoryAdd";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="section">
+    <div class="section-header">
+        <h1>Kategori Oluştur</h1>
+    </div>
+
+    <div class="section-body">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="CategoryAdd">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Oluştur" class="btn btn-primary" />
+                    </div>
+                </form>
+
+                <div>
+                    <a class="btn btn-info" asp-action="Category">Listeye Geri Dön</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

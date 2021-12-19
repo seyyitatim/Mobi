@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Mobi.Models.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="section">
+    <div class="section-header">
+        <h1>Kategoriler</h1>
+    </div>
+
+    <div class="section-body">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <p>
+                        <a class="btn btn-primary" asp-action="CategoryAdd">Kategori Ekle</a>
+                    </p>
+                    <table class="table table-bordered table-md">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-info" asp-action="CategoryEdit" asp-route-id="@item.Id">Düzenle</a>
+                                        <a class="btn btn-sm btn-danger" asp-action="CategoryDelete" asp-route-id="@item.Id">Sil</a>
+                                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
