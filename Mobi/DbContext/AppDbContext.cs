@@ -16,6 +16,7 @@ namespace Mobi.DbContext
         public DbSet<CustomProperty> CustomProperties { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<UserFavorite> UserFavorites { get; set; }
+        public DbSet<UserRoom> UserRooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,6 +64,15 @@ namespace Mobi.DbContext
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
+            modelBuilder.Entity<UserRoom>(entity =>
+            {
+                entity.HasKey(ur => ur.Id);
+
+                entity.HasOne(ur => ur.User)
+                .WithMany(u => u.UserRooms)
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
 
             base.OnModelCreating(modelBuilder);
         }

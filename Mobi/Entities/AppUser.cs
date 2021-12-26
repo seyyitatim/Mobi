@@ -9,6 +9,7 @@ namespace Mobi.Entities
         public string LastName { get; set; }
 
         public List<UserFavorite> UserFavorites { get; set; }
+        public List<UserRoom> UserRooms { get; set; }
 
     }
 }

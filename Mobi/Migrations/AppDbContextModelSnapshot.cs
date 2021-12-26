@@ -310,6 +310,29 @@ namespace Mobi.Migrations
                     b.ToTable("UserFavorites");
                 });
 
+            modelBuilder.Entity("Mobi.Entities.UserRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRooms");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Mobi.Entities.AppRole", null)
@@ -410,9 +433,22 @@ namespace Mobi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Mobi.Entities.UserRoom", b =>
+                {
+                    b.HasOne("Mobi.Entities.AppUser", "User")
+                        .WithMany("UserRooms")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Mobi.Entities.AppUser", b =>
                 {
                     b.Navigation("UserFavorites");
+
+                    b.Navigation("UserRooms");
                 });
 
             modelBuilder.Entity("Mobi.Entities.Category", b =>
