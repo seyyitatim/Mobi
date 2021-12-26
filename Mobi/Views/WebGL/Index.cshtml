@@ -18,7 +18,7 @@
 </head>
 <body>
     <div>
-        <button onclick='unityInstance.SendMessage("JavascriptHook","SetUser","alperen")'>tıkla</button>
+        <button onclick='unityInstance.SendMessage("JavascriptHook","SetUser",1)'>tıkla</button>
     </div>
     <p id="userId" hidden>alperen</p>
     <div class="webgl-content">
@@ -32,8 +32,8 @@
 
         <script>
              setTimeout(function () {
-                unityInstance.SendMessage("JavascriptHook","SetUser","alperen");
-            }, 1500);
+                unityInstance.SendMessage("JavascriptHook","SetUser",1);
+            }, 3500);
         </script>
     </div>
 </body>

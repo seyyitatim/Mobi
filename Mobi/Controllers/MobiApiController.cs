@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Mobi.DbContext;
 using Mobi.Entities;
+using Mobi.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,18 +23,44 @@ namespace Mobi.Controllers
         }
 
         [Route("GetRoomsByUserId/{userId}")]
-        public List<UserRoom> GetRoomsByUserId(int userId)
+        public IActionResult GetRoomsByUserId(int userId)
         {
-
-            //var rooms = DbContext.UserRooms.Where(ur => ur.UserId == userId).ToList();
-
-            var rooms = new List<UserRoom>()
+            if (!DbContext.Users.Any(u=>u.Id == userId))
             {
-                new UserRoom(){ Id = 1, },
-            };
-
-            return rooms;
+                return NotFound();
+            }
+            var rooms = DbContext.UserRooms.Where(ur => ur.UserId == userId).Select(ur=>new UserRoomListModel()
+            {
+                Name = ur.RoomName,
+                Data = ur.Data
+            }).ToList();
+            return Ok(rooms);
         }
 
+        [HttpPost]
+        [Route("AddRoom")]
+        public IActionResult AddRoom(RoomAddModel model)
+        {
+            try
+            {
+                UserRoom userRoom = new UserRoom()
+                {
+                    RoomName = model.Name,
+                    Data = model.Data,
+                    UserId = model.UserId
+                };
+
+                DbContext.UserRooms.Add(userRoom);
+                DbContext.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+
+
+        }
     }
 }
