@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Mobi.Controllers
 {
@@ -73,6 +74,22 @@ namespace Mobi.Controllers
                 OriginalImagePath = p.OriginalImagePath
             }).ToList();
             return Ok(products);
+        }
+
+        [Route("DeleteRoom")]
+        public async Task<IActionResult> DeleteRoom(int roomId)
+        {
+            var room = await DbContext.UserRooms.FirstOrDefaultAsync(ur=>ur.Id==roomId);
+
+            if (room==null)
+            {
+                return BadRequest();
+            }
+
+            DbContext.UserRooms.Remove(room);
+            DbContext.SaveChanges();
+
+            return Ok();
         }
     }
 }
