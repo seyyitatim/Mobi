@@ -32,7 +32,7 @@
                             <ul id="category" class="list">
                                 @foreach (var category in ViewBag.Category)
                                 {
-                                    <li>
+                                    <li onclick="productListByCategory(this)">
                                         @category.Name
                                     </li>
                                 }
@@ -90,12 +90,29 @@
 
     var productDiv = document.getElementById("productList");
 
+    var Data;
+
     $.get('/api/products',  // url
           function (data, textStatus, jqXHR) {  // success callback
-
               data.forEach(function(product){
-                  console.log(product);
-                  productDiv.innerHTML += `
+                  console.log(product)
+                  productAddToDiv(product);
+              });
+              Data=data;
+    });
+
+    function productListByCategory(element){
+        productDiv.innerHTML = "";
+        Data.forEach(function(product){
+            if(product.categoryName == element.innerText.trim()){
+                productAddToDiv(product);
+            }
+        });
+
+    }
+
+    function productAddToDiv(product){
+        productDiv.innerHTML += `
                     <div class="col-lg-4 col-sm-6">
                         <div class="single_product_item">
                             <img src="/image/products/`+product.originalImagePath+`" style="width:100%;" alt="">
@@ -106,7 +123,5 @@
                         </div>
                     </div>
                   `
-              });
-
-    });
+    }
 </script>

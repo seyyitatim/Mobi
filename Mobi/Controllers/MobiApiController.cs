@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Mobi.DbContext;
 using Mobi.Entities;
 using Mobi.Models;
@@ -64,7 +65,13 @@ namespace Mobi.Controllers
         [Route("products")]
         public IActionResult GetProducts()
         {
-            var products = DbContext.Products.ToList();
+            var products = DbContext.Products.Include(p=>p.Category).Select(p=>new ProductViewModel()
+            {
+                Id = p.Id,
+                CategoryName = p.Category.Name,
+                Name = p.Name,
+                OriginalImagePath = p.OriginalImagePath
+            }).ToList();
             return Ok(products);
         }
     }
