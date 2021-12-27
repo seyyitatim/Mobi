@@ -59,8 +59,13 @@ namespace Mobi.Controllers
             {
                 return BadRequest();
             }
+        }
 
-
+        [Route("products")]
+        public IActionResult GetProducts()
+        {
+            var products = DbContext.Products.ToList();
+            return Ok(products);
         }
     }
 }

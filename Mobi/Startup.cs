@@ -29,7 +29,7 @@ namespace Mobi
         {
             services.AddDbContext<AppDbContext>(opts =>
             {
-                opts.UseSqlServer(Configuration.GetConnectionString("AzureConnection"));
+                opts.UseSqlServer(Configuration.GetConnectionString("DefaultSqlServerConnectionString"));
             });
 
             CookieBuilder cookieBuilder = new CookieBuilder();

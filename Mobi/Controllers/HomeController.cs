@@ -28,9 +28,21 @@ namespace Mobi.Controllers
             return View();
         }
 
-        public IActionResult Products()
+        public async Task<IActionResult> Products()
         {
+            ViewBag.Category = await DbContext.Categories.ToListAsync();
             return View();
+        }
+
+        public async Task<IActionResult> ProductDetail(int productId)
+        {
+            var product = await DbContext.Products.Include(p=>p.Category).FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product==null)
+            {
+                return RedirectToAction("Products");
+            }
+            return View(product);
         }
 
         public async Task<PartialViewResult> GetCategories()
