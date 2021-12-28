@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mobi.DbContext;
+using Mobi.Entities;
 using Mobi.Models;
 using System;
 using System.Collections.Generic;
@@ -45,10 +46,10 @@ namespace Mobi.Controllers
             return View(product);
         }
 
-        public async Task<PartialViewResult> GetCategories()
+        public async Task<IActionResult> MyFavorites()
         {
-            var categoryList = await DbContext.Categories.ToListAsync();
-            return PartialView("GetCategoriesPartialView",categoryList);
+            ViewBag.Category = await DbContext.Categories.ToListAsync();
+            return View();
         }
 
         public IActionResult Privacy()
@@ -61,5 +62,7 @@ namespace Mobi.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }

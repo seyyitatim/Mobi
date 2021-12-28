@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mobi.DbContext;
 
 namespace Mobi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211228121110_ufbugfix")]
+    partial class ufbugfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,7 +299,13 @@ namespace Mobi.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CustomPropertyId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "ProductId");
+
+                    b.HasIndex("CustomPropertyId")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -402,6 +410,12 @@ namespace Mobi.Migrations
 
             modelBuilder.Entity("Mobi.Entities.UserFavorite", b =>
                 {
+                    b.HasOne("Mobi.Entities.CustomProperty", "CustomProperty")
+                        .WithOne("UserFavorite")
+                        .HasForeignKey("Mobi.Entities.UserFavorite", "CustomPropertyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Mobi.Entities.Product", "Product")
                         .WithMany("UserFavorites")
                         .HasForeignKey("ProductId")
@@ -413,6 +427,8 @@ namespace Mobi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("CustomProperty");
 
                     b.Navigation("Product");
 
@@ -440,6 +456,11 @@ namespace Mobi.Migrations
             modelBuilder.Entity("Mobi.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Mobi.Entities.CustomProperty", b =>
+                {
+                    b.Navigation("UserFavorite");
                 });
 
             modelBuilder.Entity("Mobi.Entities.Product", b =>

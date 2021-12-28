@@ -46,7 +46,7 @@ namespace Mobi.DbContext
 
             modelBuilder.Entity<UserFavorite>(entity =>
             {
-                entity.HasKey(uf => new { uf.UserId, uf.ProductId, uf.CustomPropertyId});
+                entity.HasKey(uf => new { uf.UserId, uf.ProductId});
 
                 entity.HasOne(uf => uf.User)
                 .WithMany(u => u.UserFavorites)
@@ -56,11 +56,6 @@ namespace Mobi.DbContext
                 entity.HasOne(uf => uf.Product)
                 .WithMany(p => p.UserFavorites)
                 .HasForeignKey(uf => uf.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(uf => uf.CustomProperty)
-                .WithOne(cp => cp.UserFavorite)
-                .HasForeignKey<UserFavorite>(uf => uf.CustomPropertyId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
 

@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <!-- breadcrumb start-->
 <section class="breadcrumb breadcrumb_bg">
     <div class="container">
@@ -47,40 +48,6 @@
             <div class="col-lg-9">
                 @*Ürünler gelecek*@
                 <div id="productList" class="row align-items-center latest_product_inner">
-                    @*<div class="col-lg-4 col-sm-6">
-                        <div class="single_product_item">
-                        <img src="~/image/products/kanepe21241077.jfif" alt="">
-                        <div class="single_product_text">
-                        <h4>Quartz Belt Watch</h4>
-                        <h3>$150.00</h3>
-                        <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                        </div>
-                        </div>
-                        </div>*@
-                    @*<div class="col-lg-12">
-                        <div class="pageination">
-                        <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                        <i class="ti-angle-double-left"></i>
-                        </a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                        <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                        <i class="ti-angle-double-right"></i>
-                        </a>
-                        </li>
-                        </ul>
-                        </nav>
-                        </div>
-                        </div>*@
                 </div>
             </div>
         </div>
@@ -92,15 +59,24 @@
 <script>
 
     var productDiv = document.getElementById("productList");
-
+    var UserId = @UserManager.GetUserAsync(User).Result.Id;
     var Data;
+    GetData();
 
-    $.get('/api/products',  // url
-        function (data, textStatus, jqXHR) {  // success callback
-            ShowAllProductList(data);
-            Data=data;
-    });
+    function GetData(){
+        $.get(`/api/MyFavorites?userId=${UserId}`,  // url
+            function (data, textStatus, jqXHR) {  // success callback
+                productDiv.innerHTML = "";
+                ShowAllProductList(data);
+                Data=data;
+        });
+    }
 
+    function ShowAllProductList(data){
+        data.forEach(function(product){
+            productAddToDiv(product);
+        });
+    }
 
     function productListByCategory(element){
         productDiv.innerHTML = "";
@@ -108,18 +84,19 @@
             ShowAllProductList(Data);
         }
         else{
-        Data.forEach(function(product){
-            if(product.categoryName == element.innerText.trim()){
-                productAddToDiv(product);
-            }
-        });
+            Data.forEach(function(data){
+                if(data.categoryName == element.innerText.trim()){
+                    productAddToDiv(data);
+                }
+            });
         }
     }
 
-    function ShowAllProductList(data){
-        data.forEach(function(product){
-            productAddToDiv(product);
-        });
+     function deleteFavorite(productId, userId){
+            $.get(`/api/DeleteFavorite?productId=${productId}&userId=${userId}`,  // url
+                function (data, textStatus, jqXHR) {  // success callback
+                GetData();
+            });
     }
 
     function productAddToDiv(product){
@@ -129,10 +106,12 @@
                             <img src="/image/products/`+product.originalImagePath+`" style="width:100%;" alt="">
                             <div class="single_product_text">
                                 <h4>`+product.name+`</h4>
-                                <a href="/Home/ProductDetail?productId=`+product.id+`" class="add_cart">Detay</i></a>
+                                <a href="#" onclick="deleteFavorite(${product.id},${UserId})" class="add_cart">Favorilerden Çıkar</i></a>
                             </div>
                         </div>
                     </div>
                   `
     }
 </script>
+
+

@@ -8,6 +8,5 @@
         public string Size { get; set; }
 
         public Product Product { get; set; }
-        public UserFavorite UserFavorite { get; set; }
     }
 }
