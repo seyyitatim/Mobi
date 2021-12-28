@@ -41,7 +41,7 @@ namespace Mobi.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
