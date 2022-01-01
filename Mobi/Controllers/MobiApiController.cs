@@ -85,7 +85,7 @@ namespace Mobi.Controllers
 
             if (room == null)
             {
-                return BadRequest();
+                return BadRequest(roomId);
             }
 
             DbContext.UserRooms.Remove(room);
