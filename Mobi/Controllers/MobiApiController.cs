@@ -79,13 +79,13 @@ namespace Mobi.Controllers
 
         [Route("DeleteRoom")]
         [HttpPost]
-        public async Task<IActionResult> DeleteRoom(int roomId)
+        public async Task<IActionResult> DeleteRoom(RoomDeleteViewModel model)
         {
-            var room = await DbContext.UserRooms.FirstOrDefaultAsync(ur => ur.Id == roomId);
+            var room = await DbContext.UserRooms.FirstOrDefaultAsync(ur => ur.Id == model.RoomId);
 
             if (room == null)
             {
-                return BadRequest(roomId);
+                return BadRequest(model.RoomId);
             }
 
             DbContext.UserRooms.Remove(room);
