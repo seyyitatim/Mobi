@@ -77,6 +77,7 @@ namespace Mobi.Controllers
         }
 
         [Route("DeleteRoom")]
+        [HttpPost]
         public async Task<IActionResult> DeleteRoom(int roomId)
         {
             var room = await DbContext.UserRooms.FirstOrDefaultAsync(ur => ur.Id == roomId);
