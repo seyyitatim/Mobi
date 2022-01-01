@@ -33,6 +33,7 @@ namespace Mobi.Controllers
             }
             var rooms = DbContext.UserRooms.Where(ur => ur.UserId == userId).Select(ur => new UserRoomListModel()
             {
+                Id = ur.Id,
                 Name = ur.RoomName,
                 Data = ur.Data
             }).ToList();
