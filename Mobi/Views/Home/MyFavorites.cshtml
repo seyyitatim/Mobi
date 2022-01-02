@@ -64,7 +64,7 @@
     GetData();
 
     function GetData(){
-        $.get(`/api/MyFavorites?userId=${UserId}`,  // url
+        $.get(`/api/MyFavorites/${UserId}`,  // url
             function (data, textStatus, jqXHR) {  // success callback
                 productDiv.innerHTML = "";
                 ShowAllProductList(data);

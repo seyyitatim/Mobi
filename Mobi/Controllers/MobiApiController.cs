@@ -147,7 +147,7 @@ namespace Mobi.Controllers
             return Ok();
         }
 
-        [Route("MyFavorites")]
+        [Route("MyFavorites/{userId}")]
         public async Task<IActionResult> MyFavorites(int userId)
         {
             var user = await DbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
