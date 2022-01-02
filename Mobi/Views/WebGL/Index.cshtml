@@ -103,7 +103,7 @@
           };
          UnityInstance = unityInstance;
         }).then(() => {
-            UnityInstance.SendMessage("JavascriptHook","SetUser",1);
+            UnityInstance.SendMessage("JavascriptHook","SetUser",@UserManager.GetUserAsync(User).Result.Id);
         }).catch((message) => {
           alert(message);
         });
